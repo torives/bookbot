@@ -5,11 +5,12 @@ def count_words(book):
 def count_characters(book):
     chars = {}
     for char in book:
-        char = char.lower()
-        if char in chars:
-            chars[char] = chars[char]+1
-        else:
-            chars[char] = 1
+        if char.isalpha():
+            char = char.lower()
+            if char in chars:
+                chars[char] = chars[char]+1
+            else:
+                chars[char] = 1
     return chars
 
 with open("books/frankenstein.txt") as f:
