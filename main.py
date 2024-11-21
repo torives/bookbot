@@ -1,10 +1,12 @@
-def count_words(book):
-    words = book.split()
+def count_words(text: str):
+    words = text.split()
     return len(words)
 
-def count_characters(book):
+# Returns a dict containing all letter characters present in `book` and their count.
+# This function is case-insensitive.
+def count_characters(text: str):
     chars = {}
-    for char in book:
+    for char in text:
         if char.isalpha():
             char = char.lower()
             if char in chars:
@@ -13,30 +15,22 @@ def count_characters(book):
                 chars[char] = 1
     return chars
 
-
-def sort_on(dict):
-    return dict["count"]
-
 def generate_book_report(book):
     report_list = []
     total_words = count_words(book)
     report_list.append(f"{total_words} words found in the document")
     
     character_count = count_characters(book)
-    char_list = []
-    for char, count in character_count.items():
-        char_list.append({"char": char, "count": count})
-    char_list.sort(reverse=True, key=sort_on)
+    sorted_chars = sorted(character_count.items(), key=lambda item: item[1], reverse=True)
 
-    for dict in char_list:
-        report_list.append(f"The '{dict["char"]}' character was found {dict["count"]} times")
+    for tuple in sorted_chars:
+        report_list.append(f"The '{tuple[0]}' character was found {tuple[1]} times")
         
     return "\n".join(report_list)
 
-
-
 with open("books/frankenstein.txt") as f:
     book = f.read()
+    report = generate_book_report(book)
     print("--- Begin report of books/frankenstein.txt ---")
-    print(generate_book_report(book))
+    print(report)
     print("--- End report ---")
